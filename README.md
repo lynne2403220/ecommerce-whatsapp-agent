@@ -1,35 +1,29 @@
 # Autonomous WhatsApp AI Agent for E-Commerce
 
-An AI-powered e-commerce assistant that interacts with customers through
-WhatsApp, understands natural-language shopping requests, and uses
-Python tools to perform real operations on an e-commerce backend.
+An AI-powered e-commerce assistant that interacts with customers through WhatsApp, understands natural-language shopping requests, and performs real operations through an e-commerce backend.
 
-The agent can search products, manage shopping carts, place orders,
-track orders, and cancel orders. Product prices, inventory, and order
-information are retrieved from the backend rather than invented by the
-AI.
+The agent uses tool/function calling to retrieve backend data and execute shopping workflows. Product prices, inventory, carts, and order information come from the backend—not from AI-generated guesses.
 
 ## Features
 
--   WhatsApp messaging integration using Neonize
--   AI agent powered by Groq
--   Tool/function calling with 10 Python tools
--   FastAPI backend
--   SQLite database with SQLAlchemy
--   Product and category management
--   Product search and stock checking
--   Shopping cart operations
--   Checkout with shipping address
--   Order tracking and cancellation
--   Inventory updates when orders are placed or cancelled
--   Separate conversation sessions for customers
--   English and Arabic responses
--   WhatsApp message filtering to ignore old messages and restrict group
-    responses
+- WhatsApp messaging integration using Neonize
+- AI agent powered by Groq
+- Tool/function calling with 10 Python tools
+- FastAPI REST backend
+- SQLite database with SQLAlchemy
+- Product and category management
+- Product search, details, and stock checking
+- Shopping cart operations
+- Checkout with shipping address
+- Order tracking and cancellation
+- Inventory updates when orders are placed or cancelled
+- Customer-specific conversation sessions
+- English and Arabic interactions
+- WhatsApp message filtering to ignore older messages and restrict responses to the configured group
 
 ## Architecture
 
-``` text
+```text
 Customer on WhatsApp
         |
         v
@@ -50,25 +44,22 @@ FastAPI Backend
 SQLite Database
 ```
 
-The AI agent selects the appropriate tool based on the customer's
-request. The tool sends a request to the backend, receives the real
-result, and returns it to the agent. The agent then generates a response
-based on that result.
+The AI agent selects tools based on the customer's request. The tools communicate with the backend, return actual results, and the agent generates a response based on those results.
 
 ## Technologies
 
--   Python
--   Groq API
--   FastAPI
--   SQLite
--   SQLAlchemy
--   Neonize
--   Requests
--   python-dotenv
+- Python
+- Groq API
+- FastAPI
+- SQLite
+- SQLAlchemy
+- Neonize
+- Requests
+- python-dotenv
 
 ## Project Structure
 
-``` text
+```text
 ecommerce-whatsapp-agent/
 ├── agent.py
 ├── bot.py
@@ -77,133 +68,92 @@ ecommerce-whatsapp-agent/
 ├── requirements.txt
 ├── .env.example
 ├── .gitignore
-├── backend/
-│   ├── main.py
-│   ├── database.py
-│   ├── models.py
-│   ├── schemas.py
-│   ├── seed_data.py
-│   └── ecommerce.db
-└── whatsapp_session.db
+├── README.md
+└── backend/
+    ├── main.py
+    ├── database.py
+    ├── models.py
+    ├── schemas.py
+    └── seed_data.py
 ```
 
-Database files and WhatsApp session files are created locally and should
-not be committed to GitHub.
+Local database files and WhatsApp session files are generated locally and excluded from version control.
 
 ## AI Agent Tools
 
-The agent has access to the following 10 tools:
-
-  -----------------------------------------------------------------------
-  Tool                                Description
-  ----------------------------------- -----------------------------------
-  `list_categories`                   Lists available product categories.
-
-  `search_products`                   Searches for products using a
-                                      keyword, category, and stock
-                                      filter.
-
-  `get_product_details`               Retrieves details for a specific
-                                      product.
-
-  `get_customer_cart`                 Retrieves the customer's current
-                                      cart and total.
-
-  `add_item_to_cart`                  Adds a product and quantity to the
-                                      customer's cart.
-
-  `remove_cart_item`                  Removes an item from the cart using
-                                      its cart item ID.
-
-  `clear_customer_cart`               Clears all items from the
-                                      customer's cart.
-
-  `checkout_cart`                     Creates an order using the cart and
-                                      shipping address.
-
-  `track_order`                       Retrieves information about an
-                                      order.
-
-  `cancel_order`                      Cancels an order and restores the
-                                      purchased quantities to stock.
-  -----------------------------------------------------------------------
+| Tool | Description |
+|---|---|
+| `list_categories` | Lists available product categories. |
+| `search_products` | Searches products by keyword, category, and stock filter. |
+| `get_product_details` | Retrieves details for a product. |
+| `get_customer_cart` | Retrieves a customer's cart and total. |
+| `add_item_to_cart` | Adds a product and quantity to a customer's cart. |
+| `remove_cart_item` | Removes a cart item by its item ID. |
+| `clear_customer_cart` | Clears a customer's cart. |
+| `checkout_cart` | Creates an order from a cart and shipping address. |
+| `track_order` | Retrieves order information. |
+| `cancel_order` | Cancels an order and restores purchased quantities to stock. |
 
 ## Backend API
 
-The backend provides REST API endpoints for categories, products, carts,
-and orders.
+The REST API provides endpoints for categories, products, carts, and orders.
 
 ### Categories
-
--   Create a category
--   List categories
--   Retrieve a category
--   Delete a category
+- Create, list, retrieve, and delete categories
 
 ### Products
-
--   Create a product
--   List and search products
--   Filter by category, price, and stock
--   Retrieve product details
--   Update a product
--   Delete a product
+- Create, list, search, and retrieve products
+- Filter products by category, price, and stock
+- Update and delete products
 
 ### Cart
-
--   Add items
--   View cart
--   Update item quantities
--   Remove items
--   Clear a customer's cart
+- Add items
+- View cart
+- Update item quantities
+- Remove items
+- Clear a customer's cart
 
 ### Orders
+- Checkout
+- List orders
+- Retrieve an order
+- Update order status
+- Cancel orders
 
--   Checkout
--   List orders
--   Retrieve an order
--   Update order status
--   Cancel an order
+FastAPI Swagger documentation is available at:
 
-The API documentation is available through FastAPI's Swagger interface
-after the backend starts:
-
-`http://127.0.0.1:8000/docs`
+http://127.0.0.1:8000/docs
 
 ## Initial Store Data
 
-The seed script populates the database with:
+The seed script provides these categories:
+- Electronics
+- Accessories
+- Audio
 
-### Categories
-
--   Electronics
--   Accessories
--   Audio
-
-### Sample Products
-
--   Mechanical Keyboard
--   Wireless Gaming Mouse
--   Gaming Monitor 27-inch
--   USB-C Fast Charging Cable
--   Aluminum Laptop Stand
--   Noise Cancelling Headphones
--   Waterproof Bluetooth Speaker (initially out of stock)
+Sample products:
+- Mechanical Keyboard
+- Wireless Gaming Mouse
+- Gaming Monitor 27-inch
+- USB-C Fast Charging Cable
+- Aluminum Laptop Stand
+- Noise Cancelling Headphones
+- Waterproof Bluetooth Speaker (initially out of stock)
 
 The seed script skips seeding if category data already exists.
 
 ## Requirements
 
--   Python installed
--   A Groq API key
--   WhatsApp account for pairing with the bot
+- Python 3
+- Groq API key
+- WhatsApp account for pairing the bot
 
 ## Installation and Setup
 
 ### 1. Clone the repository
 
-``` bash
-git clone <YOUR_GITHUB_REPOSITORY_URL>
+```bash
+git clone https://github.com/lynne2403220/ecommerce-whatsapp-agent.git
 cd ecommerce-whatsapp-agent
 ```
 
@@ -211,115 +161,106 @@ cd ecommerce-whatsapp-agent
 
 macOS/Linux:
 
-``` bash
+```bash
 python3 -m venv .venv
 source .venv/bin/activate
 ```
 
 ### 3. Install dependencies
 
-``` bash
+```bash
 pip install -r requirements.txt
 ```
 
 ### 4. Configure environment variables
 
-Create a `.env` file in the project root using `.env.example` as a
-template.
+Create a `.env` file in the project root using `.env.example` as a template. Set your Groq API key:
 
-Add your Groq API key:
-
-``` env
+```env
 GROQ_API_KEY=your_groq_api_key
 ```
 
-Do not commit `.env` or expose API keys publicly.
+Do not commit `.env` or expose API keys.
 
-### 5. Initialize and seed the database
+### 5. Initialize the database
 
-``` bash
+```bash
 cd backend
 python seed_data.py
 ```
 
-The seed script creates the database tables and initial
-categories/products if the database is empty.
+The seed script creates the database tables and initial categories/products if the database is empty.
 
 ## Running the Application
 
 The backend and WhatsApp bot run separately. Keep both running.
 
-### Terminal 1 --- Start the backend
+### Terminal 1 — Backend
 
 From the project root:
 
-``` bash
+```bash
 cd backend
-uvicorn main:app --reload
+python -m uvicorn main:app --host 127.0.0.1 --port 8000
 ```
 
-Backend address:
+Backend: http://127.0.0.1:8000
 
-`http://127.0.0.1:8000`
+API documentation: http://127.0.0.1:8000/docs
 
-API documentation:
+### Terminal 2 — WhatsApp Bot
 
-`http://127.0.0.1:8000/docs`
+From the project root, with the virtual environment activated:
 
-### Terminal 2 --- Start the WhatsApp bot
-
-From the project root, activate the virtual environment if necessary,
-then run:
-
-``` bash
+```bash
 python bot.py
 ```
 
-Follow the QR pairing instructions if WhatsApp requests pairing.
+Scan the QR code if WhatsApp pairing is requested. The bot receives eligible messages, sends them to the agent, and replies through WhatsApp.
 
-The bot listens for incoming messages, passes eligible messages to the
-AI agent, and sends the generated response back through WhatsApp.
+## Chat Simulator
 
-## Running the Chat Simulator
+The simulator lets you interact with the AI agent without sending WhatsApp messages.
 
-The terminal simulator can be used to test the agent without sending
-WhatsApp messages.
+With the backend running, open another terminal at the project root and run:
 
-Make sure the backend is running, then from the project root run:
-
-``` bash
+```bash
 python simulate_chat.py
 ```
 
 ## Example Customer Requests
 
--   "What electronics do you have?"
--   "Do you have a mechanical keyboard in stock?"
--   "Add one keyboard and two gaming mice to my cart."
--   "Show me my cart."
--   "I want to checkout. My address is ..."
--   "Track my order."
--   "Cancel my order."
+- “What electronics do you have?”
+- “Do you have a mechanical keyboard in stock?”
+- “Add one keyboard and two gaming mice to my cart.”
+- “Show me my cart.”
+- “I want to checkout. My address is …”
+- “Track my order.”
+- “Cancel my order.”
 
-The agent uses backend tool results to provide product information, cart
-totals, order details, and stock information.
+## Demo Checklist
 
-## Important Notes
+For a demonstration, show the following workflow:
 
--   The backend must be running before the agent tools can communicate
-    with it.
--   The WhatsApp bot and backend run in separate terminal sessions.
--   The database is local SQLite storage.
--   WhatsApp login/session data is stored locally.
--   Never upload API keys, private WhatsApp session files, or local
-    database files to a public repository.
--   The bot's message filters are configured in `bot.py`.
+1. Start the backend.
+2. Start the WhatsApp bot and confirm it is connected.
+3. Ask for available products and search for a product.
+4. Add products to the cart and show the cart total.
+5. Provide a shipping address and place an order.
+6. Ask to track the order.
+7. Demonstrate an Arabic customer request.
+8. Optionally demonstrate order cancellation and stock restoration.
 
-## Demo
+**Demo video:** Add the link here after recording.
 
-A demonstration video showing the WhatsApp interaction, product search,
-multi-tool calling, cart operations, checkout, order tracking, and
-cancellation will be added here.
+## Notes and Limitations
+
+- The backend must be running for agent tools to work.
+- The backend and WhatsApp bot run in separate processes.
+- The database uses local SQLite storage.
+- WhatsApp login/session data is stored locally.
+- Never upload API keys, WhatsApp session files, or local database files to a public repository.
+- WhatsApp message filtering is configured in `bot.py`.
 
 ## Author
 
