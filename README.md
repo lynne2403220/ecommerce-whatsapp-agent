@@ -251,7 +251,9 @@ For a demonstration, show the following workflow:
 7. Demonstrate an Arabic customer request.
 8. Optionally demonstrate order cancellation and stock restoration.
 
-**Demo video:** Add the link here after recording.
+## Demo Video
+
+[Watch the project demonstration](https://drive.google.com/file/d/14dm0i0vBRtbhXfOd57XGoCVHAVSaCnF2/view?usp=sharing)
 
 ## Notes and Limitations
 
