@@ -255,7 +255,6 @@ For a demonstration, show the following workflow:
 
 [Open the latest demo video and screenshot evidence folder](https://drive.google.com/drive/folders/1M5QunSGaWYYSDxjKkJHp_J6L-c9JJm_K?usp=sharing)
 
-[Watch the previous demo recording](https://drive.google.com/file/d/14dm0i0vBRtbhXfOd57XGoCVHAVSaCnF2/view?usp=sharing)
 
 ## Notes and Limitations
 
